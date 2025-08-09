@@ -1,0 +1,70 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rotating 3D Image with Audio</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #000;
+      perspective: 1000px;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 400px;
+      height: 500px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: rotate 8s infinite linear;
+    }
+
+    .container img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      object-fit: cover;
+    }
+
+    .container .front {
+      transform: translateZ(0);
+    }
+
+    .container .back {
+      transform: rotateY(180deg);
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotateX(0) rotateY(0) rotateZ(0);
+      }
+      100% {
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img class="front" src="/boys%20jog" alt="Front Image" />
+    <img class="back" src="/boys2.jpg" alt="Back Image" />
+  </div>
+
+  <audio id="music" src="/boys.mp3" loop></audio>
+
+  <script>
+    // Start playing music when the page loads
+    window.addEventListener('load', () => {
+      const audio = document.getElementById('music');
+      audio.play().catch(e => console.log('Audio play failed:', e));
+    });
+  </script>
+</body>
+</html>
