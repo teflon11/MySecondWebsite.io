@@ -1,0 +1,75 @@
+ 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Вращающаяся картинка</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #000;
+      perspective: 1000px;
+      overflow: hidden;
+    }
+
+    .card {
+      width: 400px;
+      height: 300px;
+      position: relative;
+      transform-style: preserve-3d;
+      animation: rotate 8s infinite linear;
+    }
+
+    .card img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      object-fit: cover;
+    }
+
+    .card .front {
+      transform: rotateY(0deg) rotateX(0deg) rotateZ(0deg);
+    }
+
+    .card .back {
+      transform: rotateY(180deg) rotateX(180deg) rotateZ(180deg);
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotateX(0) rotateY(0) rotateZ(0);
+      }
+      100% {
+        transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img class="front" src="boys.jpg" alt="Передняя сторона" />
+    <img class="back" src="boys2.jpg" alt="Задняя сторона" />
+  </div>
+
+  <audio autoplay loop>
+    <source src="boys.mp3" type="audio/mpeg">
+    Ваш браузер не поддерживает аудио.
+  </audio>
+
+  <script>
+    // Убедимся, что аудио воспроизводится (некоторые браузеры требуют взаимодействия)
+    window.addEventListener('click', function() {
+      const audio = document.querySelector('audio');
+      if (audio && audio.paused) {
+        audio.play().catch(e => console.log("Ошибка воспроизведения аудио:", e));
+      }
+    }, { once: true });
+  </script>
+</body>
+</html>
