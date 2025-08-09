@@ -1,0 +1,114 @@
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating 3D Image with Audio</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #000;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+        
+        .scene {
+            width: 300px;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate 8s infinite linear;
+        }
+        
+        .scene img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            object-fit: cover;
+        }
+        
+        .scene .front {
+            transform: translateZ(0);
+        }
+        
+        .scene .back {
+            transform: rotateY(180deg) translateZ(0);
+        }
+        
+        @keyframes rotate {
+            0% {
+                transform: rotateX(0) rotateY(0) rotateZ(0);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+            }
+        }
+        
+        #audioControls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+        }
+        
+        button {
+            padding: 10px 15px;
+            background-color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <img class="front" src="boys%20jog.jpg" alt="Front image">
+        <img class="back" src="boys2.jpg" alt="Back image">
+    </div>
+    
+    <div id="audioControls">
+        <button id="playPause">Play</button>
+    </div>
+    
+    <audio id="backgroundAudio" loop>
+        <source src="boys.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('backgroundAudio');
+            const playPauseBtn = document.getElementById('playPause');
+            
+            // Attempt to play audio (may need user interaction depending on browser)
+            function toggleAudio() {
+                if (audio.paused) {
+                    audio.play();
+                    playPauseBtn.textContent = 'Pause';
+                } else {
+                    audio.pause();
+                    playPauseBtn.textContent = 'Play';
+                }
+            }
+            
+            playPauseBtn.addEventListener('click', toggleAudio);
+            
+            // Try to autoplay on page load (may be blocked by browser)
+            audio.play().then(() => {
+                playPauseBtn.textContent = 'Pause';
+            }).catch(err => {
+                console.log("Autoplay was prevented: ", err);
+                // Show play button if autoplay is blocked
+                playPauseBtn.textContent = 'Play Audio';
+            });
+        });
+    </script>
+</body>
+</html>
